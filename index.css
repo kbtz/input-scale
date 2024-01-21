@@ -1,0 +1,14 @@
+body {
+  background-color: #333;
+  color: #AAA;
+}
+
+#container {
+  width: 1000px;
+  border-radius: 6px;
+  outline: 1px solid white;
+}
+
+input-scale {
+  color: goldenrod;
+}

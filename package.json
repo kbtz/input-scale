@@ -1,0 +1,13 @@
+{
+  "name": "input-scale",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "vite": "^5.0.12"
+  },
+  "author": "kbtz <contact@kbtz.dev>",
+  "license": "Unlicense"
+}
