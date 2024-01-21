@@ -1,6 +1,6 @@
 import Theme from './theme'
 import Slider from './slider'
-import InputScaleAttributes from './input-scale-element'
+import InputScaleAttributes from './input-scale-attributes'
 
 export default class InputScale extends InputScaleAttributes {
   root: ShadowRoot
@@ -24,7 +24,7 @@ export default class InputScale extends InputScaleAttributes {
     if (this.theme)
       this.controllers.theme
         .load(this.theme)
-        .then(this.reload)
+        .then(this.reload.bind(this))
   }
 
   optionChangedCallback(name: string): void {
@@ -32,14 +32,15 @@ export default class InputScale extends InputScaleAttributes {
       case 'theme':
         this.controllers.theme
           .load(this.theme)
-          .then(this.reload)
+          .then(this.reload.bind(this))
         break
       default:
-        this.reload()
+        if (this.controllers.theme.ready)
+          this.reload()
     }
   }
 
-  reload = () => {
+  reload() {
     const { svg, sheet } = this.controllers.theme.setup()
 
     this.root.innerHTML = ''

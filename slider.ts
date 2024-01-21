@@ -35,7 +35,7 @@ export default class Slider {
     
     let position = Math.floor(point / (size / count) * 2) / 2
 
-    if (reverse) position = count - position
+    if (reverse ^ vertical) position = count - position
     else position += .5
 
     if (!half) position = Math.ceil(position)

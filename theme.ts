@@ -9,9 +9,11 @@ export default class Theme {
   root: SVGSVGElement
   marks: SVGElement[]
   halfs: SVGElement[][]
+  ready = false
 
   async load(svgPathOrSource: string) {
     this.source = await this.parseSVG(svgPathOrSource)
+    this.ready = true
   }
 
   setup() {
@@ -47,13 +49,12 @@ export default class Theme {
 
     let properties = ''
     for (let i = 0; i < count; i++) {
-      let transform = 'translate' + (vertical ? 'Y' : 'X')
-      transform += `(${size * i}px)`
+      let position = reverse ^ vertical ? count-1 - i : i
 
       properties += /* css */`
         .mark:nth-child(${i + 1}) {
           --i: ${i};
-          transform: ${transform};
+          transform: translate${vertical ? 'Y' : 'X'}(${size * position}px);
         }
       `
 
@@ -88,14 +89,14 @@ export default class Theme {
     for (const mode in modes)
       if (modes[mode] ^ +classes.contains(mode))
         classes.toggle(mode)
-
+    
     return { svg, sheet }
   }
 
   update(animate = false) {
     if (animate) {
-      for (const active of this.root.querySelectorAll('.active'))
-        active.classList.remove('active')
+      for (const mark of this.marks)
+        mark.classList.remove('active')
       
       requestAnimationFrame(this.computeFlags.bind(this))
     } else {

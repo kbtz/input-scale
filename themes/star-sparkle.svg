@@ -12,6 +12,7 @@
       overflow: visible;
       --c: var(--color, currentColor);
       --t: var(--time, 450ms);
+      --t-fade: calc(var(--t) * .3);
     }
 
     .star path {
@@ -31,16 +32,19 @@
     .star-half {
       fill: var(--c);
       fill-opacity: 0;
-      transition: fill-opacity calc(var(--t) / 3);
+      transition: fill-opacity var(--t-fade);
 
       stroke: none;
+      
+      --clip-start: inset(0 50% 0 0);
+      --clip-end: inset(0 0 0 50%);
 
       &.start {
-        clip-path: inset(0 49.99% 0 0);
+        clip-path: var(--clip-start);
       }
 
       &.end {
-        clip-path: inset(0 0 0 49.99%);
+        clip-path: var(--clip-end);
       }
     }
 
@@ -51,7 +55,22 @@
       stroke-dashoffset: 1;
       stroke-width: 1.5;
     }
+    
+    svg.reverse:not(.vertical) .star-half {
+      --clip-start: inset(0 0 0 50%);
+      --clip-end: inset(0 50% 0 0);
+    }
 
+    svg.vertical:not(.reverse) .star-half {
+      --clip-start: inset(62% 0 0 0);
+      --clip-end: inset(0 0 37.7% 0);
+    }
+
+    svg.vertical.reverse .star-half {
+      --clip-start: inset(0 0 37.7% 0);
+      --clip-end: inset(62% 0 0 0);
+    }
+    
     svg:not(.half) {
       .mark.active .star-half {
         fill-opacity: 1;
@@ -81,7 +100,7 @@
     .star {
       --scale: 1;
       transform: scale(var(--scale));
-      transform-box: stroke-box;
+      transform-box: fill-box;
       transform-origin: 50% 55%;
       transition: transform calc(var(--t) / 3) cubic-bezier(0, 1.2, 0.6, 1.66);
     }
@@ -93,7 +112,6 @@
 
       .sparkle {
         animation-name: sparkle-out;
-        animation-direction: forwards;
       }
     }
 

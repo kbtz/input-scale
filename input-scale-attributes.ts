@@ -78,7 +78,7 @@ export default abstract class InputScaleAttributes extends CustomInput<number> {
       this.value = +newValue
       this.optionChangedCallback('value')
     } else {
-      this[name] = newValue
+      this[name] = newValue == '' ? true : newValue
     }
   }
 }
