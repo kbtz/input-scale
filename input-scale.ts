@@ -60,7 +60,6 @@ export default class InputScale extends InputScaleAttributes {
 
   change() {
     this.position.active = this.position.input
-    this.position.input = undefined
     this.controllers.theme.update(true)
   }
 

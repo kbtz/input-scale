@@ -4,13 +4,4 @@
 - max should be ignored when count is defined (via attr or non-dynamic marks)
 - non-dynamic themes
   - if there is a #mark group, skip marks setup and infer count
-- issue for R&D star half fill, failed attempts:
-  - two half elements leave floating gaps on scaling/animations
-    - overlaping solve the gaps only with solid colors
-  - gradients
-    - can't use css grads on fill
-    - svg gradients
-      - needs duplication on each mark
-      - needs duplication for each orientation (offset can't be set via css)
-      - needs dynamic ids which can't be set via css (can't use vars on url())
-    - fill with foreign object (css grad) hopefully isn't the only solution
+- @property syntax <value> gets pruned on SVG embedded styles

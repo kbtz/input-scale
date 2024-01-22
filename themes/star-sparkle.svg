@@ -1,25 +1,27 @@
 <svg viewBox="-12 -12 24 24">
   <g>
+    <path class="sparkle" />
     <g class="star">
-      <foreignObject clip-path="url(#star-clip)"
-        x="-12" y="-12" width="24" height="24">
-        <div class="css-gradient"></div>
-      </foreignObject>
+      <g class="star-fill" clip-path="url(#star-clip)">
+        <rect class="start" />
+        <rect class="end" />
+      </g>
       <path class="star-outline" />
     </g>
-    <path class="sparkle" />
   </g>
   <defs>
-    <clipPath id="star-clip" >
+    <clipPath id="star-clip">
       <path />
     </clipPath>
   </defs>
   <style>
     svg {
       overflow: visible;
-      --c: var(--color, currentColor);
-      --t: var(--time, 350ms);
-      --t-fade: calc(var(--t) * .3);
+      --c: var(--color, currentColor);      
+      --T: var(--time, 450ms);
+      --t: calc(var(--T) * .3);
+      --active: 1;
+      --fade: .3;
     }
 
     .star-outline, #star-clip path {
@@ -42,21 +44,88 @@
       stroke-width: 1.5;
     }
 
-    /* FILL AND HALFS */
-    .css-gradient {
-      width: 24px;
-      height: 24px;
-      background: linear-gradient(red, blue);
+    /* MARK HALFS */
+    .star-fill {
+      fill: var(--c);
+
+      rect {
+        x: -12px;
+        y: -12px;
+        width: 12px;
+        height: 24px;
+        shape-rendering: crispEdges;
+
+        will-change: fill-opacity;
+        transition: fill-opacity var(--t);
+
+        &.start {
+          fill-opacity: var(--start, 0);
+        }
+
+        &.end {
+          fill-opacity: var(--end, 0);
+          x: 0px;
+        }
+
+        svg.reverse:not(.vertical) & {
+          &.start { x: 0px; }
+          &.end { x: -12px; }
+        }
+
+        svg.vertical:not(.reverse) & {
+          &.start { 
+            y: 2px;
+            width: 24px;
+            height: 10px;
+          }
+
+          &.end { 
+            x: -12px;
+            width: 24px;
+            height: 14px;
+          }
+        }
+
+        svg.vertical.reverse & {
+          &.start { 
+            width: 24px;
+            height: 14px;
+          }
+
+          &.end { 
+            x: -12px;
+            y: 2px;
+            width: 24px;
+            height: 14px;
+          }
+        }
+      }
     }
 
-    /* svg.reverse:not(.vertical) .star-fill {}
-    svg.vertical:not(.reverse) .star-fill {}
-    svg.vertical.reverse .star-fill {} */
+    /* FILL STATES */
+    svg:not(.half) {
+      .mark.active {
+        --start: var(--active);
+        --end: var(--active);
+      }
+
+      .mark.enter, .mark.leave {
+        --start: var(--fade);
+        --end: var(--fade);
+      }
+    }
+
+    svg.half {
+      .start.active { --start: var(--active); }
+      .end.active { --end: var(--active); }
+      .start.enter, .start.leave { --start: var(--fade); }
+      .end.enter, .end.leave { --end: var(--fade); }
+    }
     
     /* ANIMATIONS */
     .star, .sparkle {
-      animation-delay: calc(var(--t) * (.1 * var(--i)));
-      animation-duration: var(--t);
+      animation-delay: calc(var(--T) * (.1 * var(--i)));
+      animation-duration: var(--T);
       animation-iteration-count: 1;
     }
 
@@ -65,7 +134,7 @@
       transform: scale(var(--scale));
       transform-box: fill-box;
       transform-origin: 50% 55%;
-      transition: transform calc(var(--t) / 2) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: transform var(--t) cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .sparkle {

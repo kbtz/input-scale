@@ -8,6 +8,7 @@ export default class Theme {
 
   root: SVGSVGElement
   marks: SVGElement[]
+  halfs: SVGElement[][]
   ready = false
 
   async load(svgPathOrSource: string) {
@@ -25,6 +26,7 @@ export default class Theme {
 
     this.root = svg
     this.marks = []
+    this.halfs = []
 
     let
       [x, y, w, h] = viewBox.split(' ').map(v => +v),
@@ -59,6 +61,10 @@ export default class Theme {
         .replaceAll('##', (i + 1).toString())
 
       this.marks.push(clone)
+      this.halfs.push([
+        clone.querySelector('.start'),
+        clone.querySelector('.end'),
+      ])
     }
 
     gMarks.append(...this.marks)
@@ -126,19 +132,21 @@ export default class Theme {
       flags = {
         hover: index+1 == Math.ceil(this.scale.position.input),
         active: start.active,
-        enter: start.enter && end.enter,
-        leave: start.leave && end.leave
+        enter: start.enter || end.enter,
+        leave: start.leave || end.leave
       }
 
-    if (this.scale.half)
-      Object.assign(flags, {
-        'active-start': start.active && !end.active,
-        'enter-start': start.enter && !end.enter,
-        'leave-start': start.leave && !end.leave,
-        'leave-end': !start.leave && end.leave,
-      })
+    this.updateClasses(this.marks[index], flags)
 
-    const classes = this.marks[index].classList
+    if (!this.scale.half) return
+
+    this.updateClasses(this.halfs[index][0], start)
+    this.updateClasses(this.halfs[index][1], end)
+  }
+
+  private updateClasses(target:SVGElement, flags:flags) {
+    if (!target) return
+    const classes = target.classList
     for (const name in flags)
       if (+flags[name] ^ +classes.contains(name)) 
         classes.toggle(name)
