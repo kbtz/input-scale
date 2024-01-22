@@ -55,6 +55,8 @@ export default class Theme {
       }`
 
       const clone = mark.cloneNode(true) as SVGElement
+      clone.innerHTML = clone.innerHTML
+        .replaceAll('##', (i + 1).toString())
 
       this.marks.push(clone)
     }
@@ -159,6 +161,7 @@ export default class Theme {
     template.innerHTML = source
   
     svg = template.content.firstElementChild.cloneNode(true) as SVGSVGElement
+    
   
     if (svg.tagName !== 'svg')
       throw 'Failed to parse a SVG from this file ' + svgPathOrSource
