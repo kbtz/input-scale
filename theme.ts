@@ -8,7 +8,6 @@ export default class Theme {
 
   root: SVGSVGElement
   marks: SVGElement[]
-  halfs: SVGElement[][]
   ready = false
 
   async load(svgPathOrSource: string) {
@@ -26,7 +25,6 @@ export default class Theme {
 
     this.root = svg
     this.marks = []
-    this.halfs = []
 
     let
       [x, y, w, h] = viewBox.split(' ').map(v => +v),
@@ -50,20 +48,13 @@ export default class Theme {
     let properties = ''
     for (let i = 0; i < count; i++) {
       let position = reverse ^ vertical ? count-1 - i : i
-
       properties += /* css */`
-        .mark:nth-child(${i + 1}) {
-          --i: ${i};
-          transform: translate${vertical ? 'Y' : 'X'}(${size * position}px);
-        }
-      `
+      .mark:nth-child(${i + 1}) {
+        --i: ${i};
+        transform: translate${vertical ? 'Y' : 'X'}(${size * position}px);
+      }`
 
       const clone = mark.cloneNode(true) as SVGElement
-
-      if (half) this.halfs.push([
-        clone.querySelector('.start'),
-        clone.querySelector('.end'),
-      ])
 
       this.marks.push(clone)
     }
@@ -106,18 +97,18 @@ export default class Theme {
 
   private computeFlags() {
     const
-      { count, position: { active = 0, input } } = this.scale,
+      { count, position: { active = 0, input = active } } = this.scale,
       from = active * 2, to = input * 2,
       start = Math.min(from, to), end = Math.max(from, to),
       direction = from <= to ? 'enter' : 'leave'
 
     let previous: flags, current: flags
     for (let i = 0; i < count * 2; i++) {
-      const insideInput = i >= start && i < end
+      const changing = i >= start && i < end
       current = {
         active: i < from,
-        enter: insideInput && direction == 'enter',
-        leave: insideInput && direction == 'leave',
+        enter: changing && direction == 'enter',
+        leave: changing && direction == 'leave',
       }
       
       if (i % 2) {
@@ -129,23 +120,23 @@ export default class Theme {
   }
 
   private updateFlags(index: number, start: flags, end: flags) {
-    this.updateClasses(this.marks[index], {
-      active: start.active,
-      enter: start.enter || end.enter,
-      leave: start.leave || end.leave
-    })
+    const
+      flags = {
+        hover: index+1 == Math.ceil(this.scale.position.input),
+        active: start.active,
+        enter: start.enter && end.enter,
+        leave: start.leave && end.leave
+      }
 
-    if (!this.scale.half) return
-    
-    const halfs = this.halfs[index] ?? []
-    this.updateClasses(halfs[0], start)
-    this.updateClasses(halfs[1], end)
-  }
+    if (this.scale.half)
+      Object.assign(flags, {
+        'active-start': start.active && !end.active,
+        'enter-start': start.enter && !end.enter,
+        'leave-start': start.leave && !end.leave,
+        'leave-end': !start.leave && end.leave,
+      })
 
-  private updateClasses(target: SVGElement, flags: flags) {
-    if (!target) return
-
-    const classes = target.classList
+    const classes = this.marks[index].classList
     for (const name in flags)
       if (+flags[name] ^ +classes.contains(name)) 
         classes.toggle(name)

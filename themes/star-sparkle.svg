@@ -1,21 +1,28 @@
 <svg viewBox="-12 -12 24 24">
   <g>
     <g class="star">
-      <path class="star-half start" />
-      <path class="star-half end" />
+      <foreignObject clip-path="url(#star-clip)"
+        x="-12" y="-12" width="24" height="24">
+        <div class="css-gradient"></div>
+      </foreignObject>
       <path class="star-outline" />
     </g>
     <path class="sparkle" />
   </g>
+  <defs>
+    <clipPath id="star-clip" >
+      <path />
+    </clipPath>
+  </defs>
   <style>
     svg {
       overflow: visible;
       --c: var(--color, currentColor);
-      --t: var(--time, 450ms);
+      --t: var(--time, 350ms);
       --t-fade: calc(var(--t) * .3);
     }
 
-    .star path {
+    .star-outline, #star-clip path {
       d: var(--star-path);
     }
 
@@ -29,68 +36,24 @@
       stroke-width: 1.5;
     }
 
-    .star-half {
-      fill: var(--c);
-      fill-opacity: 0;
-      transition: fill-opacity var(--t-fade);
-
-      stroke: none;
-      
-      --clip-start: inset(0 50% 0 0);
-      --clip-end: inset(0 0 0 50%);
-
-      &.start {
-        clip-path: var(--clip-start);
-      }
-
-      &.end {
-        clip-path: var(--clip-end);
-      }
-    }
-
     .sparkle {
       d: var(--sparkle-path);
       stroke-linecap: round;
-      stroke-dasharray: 0 0 0 14;
-      stroke-dashoffset: 1;
       stroke-width: 1.5;
     }
+
+    /* FILL AND HALFS */
+    .css-gradient {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(red, blue);
+    }
+
+    /* svg.reverse:not(.vertical) .star-fill {}
+    svg.vertical:not(.reverse) .star-fill {}
+    svg.vertical.reverse .star-fill {} */
     
-    svg.reverse:not(.vertical) .star-half {
-      --clip-start: inset(0 0 0 50%);
-      --clip-end: inset(0 50% 0 0);
-    }
-
-    svg.vertical:not(.reverse) .star-half {
-      --clip-start: inset(62% 0 0 0);
-      --clip-end: inset(0 0 37.7% 0);
-    }
-
-    svg.vertical.reverse .star-half {
-      --clip-start: inset(0 0 37.7% 0);
-      --clip-end: inset(62% 0 0 0);
-    }
-    
-    svg:not(.half) {
-      .mark.active .star-half {
-        fill-opacity: 1;
-      }
-
-      .mark.enter .star-half, .mark.leave .star-half {
-        fill-opacity: .3;
-      }
-    }
-
-    svg.half {
-      .star-half.active {
-        fill-opacity: 1;
-      }
-
-      .star-half.enter, .star-half.leave {
-        fill-opacity: .3;
-      }
-    }
-
+    /* ANIMATIONS */
     .star, .sparkle {
       animation-delay: calc(var(--t) * (.1 * var(--i)));
       animation-duration: var(--t);
@@ -102,7 +65,16 @@
       transform: scale(var(--scale));
       transform-box: fill-box;
       transform-origin: 50% 55%;
-      transition: transform calc(var(--t) / 3) cubic-bezier(0, 1.2, 0.6, 1.66);
+      transition: transform calc(var(--t) / 2) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .sparkle {
+      stroke-dasharray: 0 0 0 14;
+      stroke-dashoffset: 1;
+    }
+
+    .mark.hover .star {
+      --scale: 1.15;
     }
 
     .mark.active {
@@ -152,6 +124,7 @@
       }
     }
 
+    /* PATHS */
     svg {
       --star-path: path("M \
           5.231   2.700 \

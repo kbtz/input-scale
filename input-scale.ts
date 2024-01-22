@@ -54,16 +54,18 @@ export default class InputScale extends InputScaleAttributes {
     if (position == this.position.input)
       return
     
-    this.position.input = position ?? this.position.input
+    this.position.input = position
     this.controllers.theme.update()
   }
 
   change() {
     this.position.active = this.position.input
+    this.position.input = undefined
     this.controllers.theme.update(true)
   }
 
   clear() {
-    this.input(this.position.active ?? 0)
+    this.position.input = undefined
+    this.controllers.theme.update()
   }
 }
