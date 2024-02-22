@@ -7,7 +7,7 @@ export default abstract class InputScaleAttributes extends CustomInput<number> {
   static defaults = {
     min: 1, max: 5,
     theme: undefined as string,
-    half: 1 as bit,
+    half: 0 as bit,
     reverse: 0 as bit,
     vertical: 0 as bit,
     readonly: 0 as bit

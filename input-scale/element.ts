@@ -1,8 +1,12 @@
 import Theme from './theme'
 import Slider from './slider'
-import InputScaleAttributes from './input-scale-attributes'
-
+import InputScaleAttributes from './attributes'
 export default class InputScale extends InputScaleAttributes {
+  
+  static define() {
+    customElements.define('input-scale', InputScale)
+  }
+  
   root: ShadowRoot
 
   position = {
@@ -48,6 +52,9 @@ export default class InputScale extends InputScaleAttributes {
     this.root.adoptedStyleSheets = [sheet]
 
     this.controllers.slider.setup(svg)
+
+    this.position.active = 3.5
+    this.controllers.theme.update(true)
   }
 
   input(position: number) {

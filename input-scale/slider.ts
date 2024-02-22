@@ -1,4 +1,4 @@
-import InputScale from './input-scale'
+import InputScale from './index'
 
 export default class Slider {
   is = {

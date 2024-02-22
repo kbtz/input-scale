@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
+    "module": "ESNext",
     "target": "ESNext",
-    "types": ["./index.d.ts"]
+    "types": ["./input-scale/index.d.ts"]
   }
 }

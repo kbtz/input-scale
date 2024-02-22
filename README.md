@@ -1,7 +1,3 @@
-- theme & user style
-  - attr/options = path or string
-  - slot
-- max should be ignored when count is defined (via attr or non-dynamic marks)
-- non-dynamic themes
-  - if there is a #mark group, skip marks setup and infer count
-- @property syntax <value> gets pruned on SVG embedded styles
+# &lt;input-scale&gt; 🚧
+
+PoC for a generic star-rating component

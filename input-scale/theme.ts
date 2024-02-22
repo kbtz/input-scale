@@ -1,4 +1,4 @@
-import InputScale from './input-scale'
+import InputScale from './index'
 import style from './theme.css?inline'
 
 export default class Theme {
