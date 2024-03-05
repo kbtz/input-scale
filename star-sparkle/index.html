@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>&lt;star-sparkle&gt;</title>
-  <script type="module" src="./index.js"></script>
+  <!-- <script type="module" src="./index.js"></script> -->
+  <script type="module" src="./dist/star-sparkle.mjs"></script>
   <style>
     body {
       background-color: #333;
@@ -28,7 +29,6 @@
     }
 
     star-sparkle {
-      color: goldenrod;
       margin-bottom: 1rem;
     }
   </style>
@@ -45,8 +45,8 @@
 <body>
   <main>
     <h1>&lt;star-sparkle&gt;</h1>
-    <star-sparkle count="3"></star-sparkle>
-    <star-sparkle value="4"></star-sparkle>
+    <star-sparkle style="color: cornflowerblue; --time: .777s" count="3"></star-sparkle>
+    <star-sparkle style="color: goldenrod;" value="4"></star-sparkle>
   </main>
 </body>
 

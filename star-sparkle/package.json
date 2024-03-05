@@ -1,0 +1,13 @@
+{
+  "name": "star-sparkle",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "kbtz <contact@kbtz.dev>",
+  "license": "Unlicense",
+  "scripts": {
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "vite": "^5.1.5"
+  }
+}
