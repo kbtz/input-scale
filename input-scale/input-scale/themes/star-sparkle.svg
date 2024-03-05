@@ -17,7 +17,7 @@
   <style>
     svg {
       overflow: visible;
-      --c: var(--color, currentColor);      
+      --c: var(--color, currentColor);
       --T: var(--time, 450ms);
       --t: calc(var(--T) * .3);
       --active: 1;

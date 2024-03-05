@@ -1,7 +1,6 @@
 // @ts-ignore
 import { defineConfig } from 'vite'
 
-console.log(import.meta['DEV'] ? 'YY' : 'NN')
 export default defineConfig(({ command }) => {
   return {
     resolve: {

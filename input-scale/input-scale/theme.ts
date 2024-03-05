@@ -82,7 +82,7 @@ export default class Theme {
     ` + style)
 
     const
-      modes = { half, reverse, vertical},
+      modes = { half, reverse, vertical },
       classes = svg.classList
     
     for (const mode in modes)

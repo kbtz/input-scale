@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>&lt;star-sparkle&gt;</title>
+  <script type="module" src="./index.js"></script>
+  <style>
+    body {
+      background-color: #333;
+      padding-top: 3rem;
+    }
+
+    main {
+      padding: 1rem;
+      outline: 1px solid #AAA;
+      border-radius: 6px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: monospace;
+      font-size: 2rem;
+      color: #AAA;
+    }
+
+    star-sparkle {
+      color: goldenrod;
+      margin-bottom: 1rem;
+    }
+  </style>
+  <script>
+    window.onload = () => 
+      Array.from(document.querySelectorAll('star-sparkle'))
+        .forEach(ss => {
+          ss.addEventListener('input', () => console.log('input'))
+          ss.addEventListener('change', () => console.log('change'))
+        })
+  </script>
+</head>
+
+<body>
+  <main>
+    <h1>&lt;star-sparkle&gt;</h1>
+    <star-sparkle count="3"></star-sparkle>
+    <star-sparkle value="4"></star-sparkle>
+  </main>
+</body>
+
+</html>

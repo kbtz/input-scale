@@ -1,0 +1,148 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+svg {
+  overflow: visible;
+  max-width: 100%;
+  max-height: 100%;
+  -webkit-tap-highlight-color: transparent;
+
+  --c: var(--color, currentColor);
+  --T: var(--time, 450ms);
+  --t: calc(var(--T) * .3);
+  --active: 1;
+  --fade: .3;
+}
+
+.fill, .outline {
+  d: var(--star-path);
+}
+
+.fill {
+  fill: var(--c);
+  stroke: none;
+  fill-opacity: 0;
+  transition: fill-opacity var(--T);
+}
+
+.outline, .sparkle {  
+  fill: none;
+  stroke: var(--c);
+}
+
+.outline {
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+.sparkle {
+  d: var(--sparkle-path);
+  stroke-linecap: round;
+  stroke-width: 1.5;
+}
+
+/* FILL */
+.mark.active .fill {
+  fill-opacity: var(--active);
+}
+
+.mark.fade .fill {
+  fill-opacity: var(--fade);
+}
+
+/* ANIMATIONS */
+.star, .sparkle {
+  animation-delay: calc(var(--T) * (.15 * var(--i)));
+  animation-duration: var(--T);
+  animation-iteration-count: 1;
+}
+
+.star {
+  --scale: 1;
+  transform: scale(var(--scale));
+  transform-box: fill-box;
+  transform-origin: 50% 55%;
+  transition: transform var(--t) cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.sparkle {
+  stroke-dasharray: 0 0 0 14;
+  stroke-dashoffset: 1;
+}
+
+.mark.hover .star {
+  --scale: 1.15;
+}
+
+.mark.active {
+  .star {
+    animation-name: star-pop;
+  }
+
+  .sparkle {
+    animation-name: sparkle-out;
+  }
+}
+
+
+@keyframes star-pop {
+  from {
+    animation-timing-function: cubic-bezier(0.5, 0.5, 0, 1);
+  }
+  40% {
+    animation-timing-function: cubic-bezier(0, 1.2, 0.6, 1.66);
+    transform: scale(.4);
+  }
+  to {
+    transform: scale(var(--scale));
+  }
+}
+
+@keyframes sparkle-out {
+  from {
+    stroke-opacity: 0;
+  }
+  20% {
+    stroke-opacity: 0;
+    stroke-dasharray: 0 5 1 8;
+  }
+  40% {
+    stroke-dasharray: 0 6 4 4;
+  }
+  55% {
+    stroke-opacity: 1;
+    stroke-dasharray: 0 9 3 2;
+  }
+  70% {
+    stroke-dasharray: 0 12 1 1;
+  }
+  90%, to {
+    stroke-opacity: 0;
+    stroke-dasharray: 0 14 0 0;
+  }
+}
+
+
+/* PATHS */
+svg {
+  --star-path: path("M \
+      5.231   2.700 \
+    10.462  -2.399 \
+      3.233  -3.450 \
+      0.000 -10.000 \
+    -3.233  -3.450 \
+    -10.462  -2.399 \
+    -5.231   2.700 \
+    -6.466   9.899 \
+      0.000   6.500 \
+      6.466   9.899 z");
+  --sparkle-path: path(" \
+    M 0 1 L  11.412   4.708 \
+    M 0 1 L   0.000  13.000 \
+    M 0 1 L -11.412   4.708 \
+    M 0 1 L  -7.053  -8.708 \
+    M 0 1 L   7.053  -8.708 ");
+}
